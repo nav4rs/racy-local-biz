@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Regency at Cranbury — Local Biz Recommendations</title>
+<style>
+    :root {
+        --bg: #f5f7fa;
+        --card-bg: #ffffff;
+        --text: #2c3e50;
+        --text-muted: #7f8c8d;
+        --border: #e1e8ed;
+        --shadow: 0 2px 8px rgba(0,0,0,0.08);
+        --radius: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        padding: 0;
+    }
+
+    /* Header */
+    .page-header {
+        background: linear-gradient(135deg, #2c3e50, #3498db);
+        color: white;
+        padding: 2rem 1.5rem;
+        text-align: center;
+    }
+    .page-header h1 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+    }
+    .page-header .subtitle {
+        font-size: 0.95rem;
+        opacity: 0.85;
+    }
+
+    /* Nav pills */
+    .nav-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 1rem 1.5rem;
+        background: var(--card-bg);
+        border-bottom: 1px solid var(--border);
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        box-shadow: var(--shadow);
+        justify-content: center;
+    }
+    .nav-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.45rem 1rem;
+        border-radius: 999px;
+        background: color-mix(in srgb, var(--pill-color) 12%, transparent);
+        color: var(--pill-color);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.85rem;
+        transition: all 0.2s;
+        border: 1.5px solid color-mix(in srgb, var(--pill-color) 25%, transparent);
+    }
+    .nav-pill:hover {
+        background: color-mix(in srgb, var(--pill-color) 22%, transparent);
+        transform: translateY(-1px);
+    }
+    .nav-pill .badge {
+        background: var(--pill-color);
+        color: white;
+        font-size: 0.75rem;
+        padding: 0.1rem 0.5rem;
+        border-radius: 999px;
+        font-weight: 700;
+    }
+
+    /* Content */
+    .content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem;
+    }
+
+    /* Category sections */
+    .category-section {
+        margin-bottom: 2rem;
+    }
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.75rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 3px solid var(--section-color);
+    }
+    .section-header h2 {
+        font-size: 1.3rem;
+        color: var(--section-color);
+    }
+    .count-badge {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        font-weight: 400;
+    }
+
+    /* Table */
+    .table-wrap {
+        background: var(--card-bg);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+    }
+    thead th {
+        background: #f8f9fb;
+        padding: 0.75rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--text-muted);
+        border-bottom: 2px solid var(--border);
+        white-space: nowrap;
+    }
+    tbody td {
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid var(--border);
+        vertical-align: top;
+    }
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+    tbody tr:hover {
+        background: #f8f9fb;
+    }
+
+    .col-name { min-width: 140px; }
+    .col-summary { min-width: 200px; color: var(--text-muted); font-size: 0.85rem; }
+    .col-contact a { color: #3498db; text-decoration: none; }
+    .col-contact a:hover { text-decoration: underline; }
+
+    .subcat-tag {
+        display: inline-block;
+        padding: 0.15rem 0.6rem;
+        background: #eef2f7;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        color: #546e7a;
+        white-space: nowrap;
+    }
+
+    .stars {
+        color: #f39c12;
+        white-space: nowrap;
+        font-size: 1rem;
+    }
+    .rating-num {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-left: 0.2rem;
+    }
+
+    /* Footer */
+    .page-footer {
+        text-align: center;
+        padding: 1.5rem;
+        color: var(--text-muted);
+        font-size: 0.8rem;
+    }
+
+    /* Mobile: cards layout */
+    @media (max-width: 768px) {
+        .page-header h1 { font-size: 1.4rem; }
+        .content { padding: 1rem; }
+
+        .table-wrap { box-shadow: none; background: transparent; overflow: visible; }
+
+        table, thead, tbody, th, td, tr {
+            display: block;
+        }
+        thead { display: none; }
+
+        tbody tr {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 0.75rem;
+            padding: 1rem;
+            border-bottom: none;
+        }
+        tbody tr:hover { background: var(--card-bg); }
+
+        tbody td {
+            padding: 0.25rem 0;
+            border-bottom: none;
+        }
+        tbody td::before {
+            content: attr(data-label);
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            display: block;
+            margin-bottom: 0.1rem;
+        }
+        .col-name { font-size: 1.05rem; margin-bottom: 0.3rem; }
+        .col-summary { min-width: 0; }
+    }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+    <h1><span style="font-weight:800">R</span>egency <span style="font-weight:800">a</span>t <span style="font-weight:800">C</span>ranbury &mdash; Local Biz Recommendations</h1>
+    <div class="subtitle">48 recommendations &middot; Updated Feb 16, 2026 at 08:32 AM</div>
+</header>
+
+<nav class="nav-bar">
+    <a href="#health-care" class="nav-pill" style="--pill-color: #2ecc71">Health Care <span class="badge">3</span></a><a href="#home-services" class="nav-pill" style="--pill-color: #3498db">Home Services <span class="badge">7</span></a><a href="#personal-care" class="nav-pill" style="--pill-color: #9b59b6">Personal Care <span class="badge">5</span></a><a href="#restaurants" class="nav-pill" style="--pill-color: #e74c3c">Restaurants <span class="badge">33</span></a>
+</nav>
+
+<main class="content">
+    
+        <section id="health-care" class="category-section">
+            <div class="section-header" style="--section-color: #2ecc71">
+                <h2>Health Care</h2>
+                <span class="count-badge">3 recommendations</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Business Name</th>
+                            <th>Sub-Category</th>
+                            <th>Contact</th>
+                            <th>Location</th>
+                            <th>Rating</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                <tr>
+                    <td class="col-name"><strong>Princeton Dentistry</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Dentist</span></td>
+                    <td class="col-contact"><a href="https://www.princetondentistry.com/" target="_blank">https://www.princetondentistry.com/</a></td>
+                    <td class="col-location">Located right after Princeton Shopping Center</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Whole family practice since 2019, highly recommended. Dr. Payam&#x27;s practice with Dr. Baig available for quicker appointments.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Princeton Gastroenterology</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Gastroenterologist</span></td>
+                    <td class="col-contact"><a href="https://princetongi.com/our-physicians/" target="_blank">https://princetongi.com/our-physicians/</a></td>
+                    <td class="col-location"></td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Dr. Robert Meirowitz and Amy Shriver (terrific) are available in the practice.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Monica Saumoy, MD, MS</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Gastroenterologist</span></td>
+                    <td class="col-contact"><a href="https://www.pennmedicine.org/providers/monica-saumoy" target="_blank">https://www.pennmedicine.org/providers/monica-saumoy</a></td>
+                    <td class="col-location">Princeton Hospital and nearby locations</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Highly recommended gastroenterologist with multiple location options.</td>
+                </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="home-services" class="category-section">
+            <div class="section-header" style="--section-color: #3498db">
+                <h2>Home Services</h2>
+                <span class="count-badge">7 recommendations</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Business Name</th>
+                            <th>Sub-Category</th>
+                            <th>Contact</th>
+                            <th>Location</th>
+                            <th>Rating</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                <tr>
+                    <td class="col-name"><strong>Pinpoint Inspection</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Home Inspector</span></td>
+                    <td class="col-contact"><a href="tel:Laura Gill, 609-921-7900">Laura Gill, 609-921-7900</a></td>
+                    <td class="col-location"></td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Inspector and engineer, very responsive, typically needs a couple of days to a week to book.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Jamesburg Hardware</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Window Treatments</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Jamesburg</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Provides Hunter Douglas window treatments, Jeff is recommended.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Rosen&#x27;s</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Window Treatments</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Marlboro</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Alternative option for window treatments.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Accurate Roofing and Siding</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Roofer</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location"></td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Alternative roofing company recommendation.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Donny&#x27;s Roofing</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Roofer/Ice Dam Removal</span></td>
+                    <td class="col-contact"><a href="tel:973-333-6364">973-333-6364</a></td>
+                    <td class="col-location"></td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Ice dam removal service for central NJ.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Emmins Roofing and Siding</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Roofer/Ice Dam Removal</span></td>
+                    <td class="col-contact"><a href="tel:856-556-3229">856-556-3229</a></td>
+                    <td class="col-location"></td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Ice dam removal service for central NJ.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Ice Dam USA</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Ice Dam Removal</span></td>
+                    <td class="col-contact"><a href="tel:855-468-4233">855-468-4233</a></td>
+                    <td class="col-location"></td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Ice dam removal service for central NJ.</td>
+                </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="personal-care" class="category-section">
+            <div class="section-header" style="--section-color: #9b59b6">
+                <h2>Personal Care</h2>
+                <span class="count-badge">5 recommendations</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Business Name</th>
+                            <th>Sub-Category</th>
+                            <th>Contact</th>
+                            <th>Location</th>
+                            <th>Rating</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                <tr>
+                    <td class="col-name"><strong>Galleria Nails &amp; Spa</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Nail Salon</span></td>
+                    <td class="col-contact"><a href="https://share.google/6dHnZ5tbftB7j0zjX" target="_blank">https://share.google/6dHnZ5tbftB7j0zjX</a></td>
+                    <td class="col-location"></td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Good nail salon, Jackie is particularly recommended.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Ulta</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Nail and Hair Salon</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Nassau Park</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Morgan is really good for hair services, can book online.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Crow &amp; Teapot Consignment Shop Tailor</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Tailor</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Main Street, Cranbury</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Very good tailor available at this consignment shop, call first to ensure he&#x27;s there.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Lee&#x27;s Cleaners</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Dry Cleaner</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Route 130, East Windsor</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Reliable dry cleaning service.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>McCaffrey&#x27;s Shopping Center Dry Cleaners</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Tailor</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Princeton Hightstown Road, West Windsor (near First Wok)</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Excellent tailor available at the dry cleaners with a small try-on booth for measurements. Not inexpensive but really good quality work.</td>
+                </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+        <section id="restaurants" class="category-section">
+            <div class="section-header" style="--section-color: #e74c3c">
+                <h2>Restaurants</h2>
+                <span class="count-badge">33 recommendations</span>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Business Name</th>
+                            <th>Sub-Category</th>
+                            <th>Contact</th>
+                            <th>Location</th>
+                            <th>Rating</th>
+                            <th>Summary</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                <tr>
+                    <td class="col-name"><strong>Hills of Herat</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Afghani</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Basking Ridge</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">Afghani cuisine with consistently good quality.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Silk Road</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Afghani</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Warren</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.7</span></span></td>
+                    <td class="col-summary">Really great Afghani food, somewhat better than Pamir in Morristown. Popular with vegetarians, known for their afternoon Shir Chai.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>3 West</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">American</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Basking Ridge</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">American cuisine with good quality.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>One 53</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">American</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Rocky Hills</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">Fresh good quality food with nice ambiance, open for dinner only.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Peking Pavilion</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Chinese</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Manalapan</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span class="rating-num">5.0</span></span></td>
+                    <td class="col-summary">Always busy restaurant with great food and a large menu. Closed on Monday.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Shanghai Bun</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Chinese</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Princeton Junction</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span class="rating-num">5.0</span></span></td>
+                    <td class="col-summary">NYT favorably reviewed authentic Chinese food regularly filled with Chinese diners. Amazing soup dumplings, located in a strip mall.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Shu House</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Chinese</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Kendall Park</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span class="rating-num">5.0</span></span></td>
+                    <td class="col-summary">Best Sichuan and Taiwanese food in NJ. BYOB restaurant with outstanding dry pepper fish and wontons in chilli oil. Has vegetarian options including eggplant and soy dishes.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Dashen</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Ethiopian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">New Brunswick</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="rating-num">4.0</span></span></td>
+                    <td class="col-summary">Second best Ethiopian food, started by the chef from the beloved Makeda restaurant that closed years ago.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Mesob</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Ethiopian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Montclair</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">Great tasting Ethiopian cuisine with great service, a close second to Makeda in New Brunswick which closed many years ago.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Eno Terra Restaurant &amp; Enoteca</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Italian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Kingston</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.8</span></span></td>
+                    <td class="col-summary">Italian farm to table restaurant with valet parking, a bit pricey but perfect for special occasions.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Scallini Fedelli</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Italian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location"></td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.8</span></span></td>
+                    <td class="col-summary">Highly regarded Italian restaurant.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Toscano</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Italian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Bordentown</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span class="rating-num">5.0</span></span></td>
+                    <td class="col-summary">Northern Italian steakhouse with a great bar, worth the trip.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Aja</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Japanese</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Skillman</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">Great sushi.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Mahzu</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Japanese</span></td>
+                    <td class="col-contact"><a href="https://share.google/fDKNxM5JlMAYWWQ7Z" target="_blank">https://share.google/fDKNxM5JlMAYWWQ7Z</a></td>
+                    <td class="col-location">East Windsor on Route 130</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Good Hibachi restaurant, BYOB.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Mediterra</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Mediterranean</span></td>
+                    <td class="col-contact"><a href="https://www.opentable.com/restaurant/profile/4793" target="_blank">https://www.opentable.com/restaurant/profile/4793</a></td>
+                    <td class="col-location">Princeton</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Traditional restaurant that never disappoints.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Ayat</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Middle Eastern</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Princeton</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9734;&#9734; <span class="rating-num">3.0</span></span></td>
+                    <td class="col-summary">Ok middle eastern food, not a regular destination.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Palace of Asia</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">North Indian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Hamilton, NJ</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="rating-num">4.0</span></span></td>
+                    <td class="col-summary">Long standing restaurant serving consistently delicious North Indian cuisine.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Rani</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">North Indian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Hamilton</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">North Indian restaurant with really good food, good ambience, a bit gimmicky especially the drinks.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Samudhru</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">North and South Indian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Franklin Park</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">Fine dining Indian restaurant featuring North and South Indian food with unlimited Thali on weekends.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>DeLorenzo&#x27;s Tomato Pie</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Pizza</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Robbinsville</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span class="rating-num">5.0</span></span></td>
+                    <td class="col-summary">Thin crust tomato pie with sauce on top of the cheese and all the toppings. Very popular with long waits on weekends.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Dosa Grill</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">South Indian</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">East Windsor</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="rating-num">4.0</span></span></td>
+                    <td class="col-summary">South Indian specialty food, vegetarian.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Roots Ocean Prime</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Steakhouse</span></td>
+                    <td class="col-contact"><a href="https://share.google/ckhyxQt9S8RWgkrzn" target="_blank">https://share.google/ckhyxQt9S8RWgkrzn</a></td>
+                    <td class="col-location">Princeton</td>
+                    <td class="col-rating"></td>
+                    <td class="col-summary">Great steakhouse for special occasions with sophisticated ambiance and good service.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Serenade</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">French-American Fusion</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Chatham</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.8</span></span></td>
+                    <td class="col-summary">French-American fusion restaurant that is highly regarded.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Market on Main</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Greek</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Cranbury</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9734;&#9734; <span class="rating-num">3.0</span></span></td>
+                    <td class="col-summary">Used to be a 5-star but has downgraded with new ownership.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Bent Spoon</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Ice Cream</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Princeton</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="rating-num">4.0</span></span></td>
+                    <td class="col-summary">Interesting and creative ice cream flavors, though not quite as good as Thomas Sweet.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Gil&amp;Bert</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Ice Cream</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Cranbury</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9734;&#9734; <span class="rating-num">3.0</span></span></td>
+                    <td class="col-summary">Not worth the wait with mediocre flavors, better options are available.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Melba</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Ice Cream</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Lawrenceville</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span class="rating-num">5.0</span></span></td>
+                    <td class="col-summary">Homemade artisanal ice cream with great non-dairy and vegan options.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Thomas Sweet</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Ice Cream</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">New Brunswick and Princeton</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9733; <span class="rating-num">5.0</span></span></td>
+                    <td class="col-summary">Besides the sentimental value, the blend-ins are an absolute favorite, especially Cookie/Cream with KitKat blend-in.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Kuay Tiew Noodles and More</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Thai</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Somerville downtown</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">Good Thai food in downtown Somerville.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Origins Thai</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Thai</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Somerville downtown and Basking Ridge</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.5</span></span></td>
+                    <td class="col-summary">Good Thai food with locations in Somerville downtown and Basking Ridge.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Thai Chili House</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Thai</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Hillsboro</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#189; <span class="rating-num">4.7</span></span></td>
+                    <td class="col-summary">Best Thai food in NJ, very accommodating to vegetarians making dishes without fish sauce. Spice levels L3 and above are very hot.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Thai Food Addict</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Thai</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Helmetta</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9733;&#9734; <span class="rating-num">4.0</span></span></td>
+                    <td class="col-summary">Good Thai option if you don&#x27;t want to drive 40 minutes to Thai Chili House. Decent Thai, not quite as good as Hillsboro.</td>
+                </tr>
+                <tr>
+                    <td class="col-name"><strong>Aspendos</strong></td>
+                    <td class="col-subcat"><span class="subcat-tag">Turkish</span></td>
+                    <td class="col-contact"></td>
+                    <td class="col-location">Princeton</td>
+                    <td class="col-rating"><span class="stars">&#9733;&#9733;&#9733;&#9734;&#9734; <span class="rating-num">3.0</span></span></td>
+                    <td class="col-summary">Ok Turkish food, not a regular destination, limited vegetarian options.</td>
+                </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+</main>
+
+<footer class="page-footer">
+    Generated by chat2sheet &middot; Feb 16, 2026 at 08:32 AM
+</footer>
+
+<script>
+// Add data-label attributes for mobile card layout
+document.querySelectorAll('tbody tr').forEach(row => {
+    const labels = ['Business Name','Sub-Category','Contact','Location','Rating','Summary'];
+    row.querySelectorAll('td').forEach((td, i) => {
+        if (labels[i]) td.setAttribute('data-label', labels[i]);
+    });
+});
+</script>
+
+</body>
+</html>
